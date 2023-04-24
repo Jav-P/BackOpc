@@ -20,17 +20,18 @@ class PisosView(View):
                 piso=pisos[0]
                 datos={'message':"Succes",'Piso':piso}
             else:
-                datos={'message':"Piso no encontrado ..."}  
+                datos={'message':"Piso no encontrado, acá no es ..."}  
             return JsonResponse(datos)
         else:
             pisos=list(Piso.objects.values())
             if len(pisos)>0:
                 datos={'message':"Succes",'Pisos':pisos}
             else:
-                datos={'message':"Pisos no encontrados ..."}
+                datos={'message':"Pisos no encontrados aaaa..."}
             return JsonResponse(datos)
 
     def post(self, request):
+        print(request)
         jd =json.loads(request.body)
         Piso.objects.create(num_piso=jd['num_piso'])
         datos={'message':"Succes"}
@@ -45,7 +46,7 @@ class PisosView(View):
             piso.save()
             datos = {'message':"Success"}
         else:
-            datos = {'message':"Visitante no encontrado ..."}
+            datos = {'message':"Piso no encontrado eeee..."}
         return JsonResponse(datos)        
 
     def delete(self, request, id):
@@ -174,7 +175,9 @@ class VisitantesView(View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, id=0):
-       
+        
+        Visitante.reg_rostro()
+
         if (id>0):
             visitantes=list(Visitante.objects.filter(id=id).values())
             if len(visitantes)>0:
