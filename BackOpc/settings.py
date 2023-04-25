@@ -55,6 +55,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'BackOpc.urls'
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -123,6 +125,8 @@ USE_I18N = True
 USE_TZ = True
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+ACCESS_CONTROL_ALLOW_ORIGIN = '*'
 
 
 # Static files (CSS, JavaScript, Images)

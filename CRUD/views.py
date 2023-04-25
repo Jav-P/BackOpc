@@ -71,7 +71,7 @@ class HabitacionesView(View):
                 habitacion=habitaciones[0]
                 datos={'message':"Succes",'Habitación':habitacion}
             else:
-                datos={'message':"habitación no encontrado ..."}  
+                datos={'message':"habitación no encontrado ..."}
             return JsonResponse(datos)
         else:
             habitaciones=list(Habitacion.objects.values())
@@ -125,14 +125,14 @@ class PacientesView(View):
             pacientes=list(Paciente.objects.filter(id=id).values())
             if len(pacientes)>0:
                 paciente=pacientes[0]
-                datos={'message':"Succes",'Paciente':paciente}
+                datos={'Paciente':paciente}
             else:
                 datos={'message':"Paciente no encontrados ..."}  
             return JsonResponse(datos)
         else:
             pacientes=list(Paciente.objects.values())
             if len(pacientes)>0:
-                datos={'message':"Succes",'Pacientes':pacientes}
+                datos={'Pacientes':pacientes}
             else:
                 datos={'message':"Pacientes no encontrados ..."}
             return JsonResponse(datos)
