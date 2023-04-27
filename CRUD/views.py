@@ -69,7 +69,7 @@ class HabitacionesView(View):
             habitaciones=list(Habitacion.objects.filter(id=id).values())
             if len(habitaciones)>0:
                 habitacion=habitaciones[0]
-                datos={'message':"Succes",'Habitación':habitacion}
+                datos={'message':"Succes",'Habitacion':habitacion}
             else:
                 datos={'message':"habitación no encontrado ..."}
             return JsonResponse(datos)
