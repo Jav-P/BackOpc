@@ -193,11 +193,16 @@ class VisitantesView(View):
 
     def post(self, request):
         jd=json.loads(request.body)
+        habitaciones=Habitacion.objects.get(id=jd['habitacion'])
+        pacientes=Paciente.objects.get(id=jd['paciente'])
+        # print(jd['foto'])
+        Visitante.reg_rostro(jd['foto'], jd['cc_visitante'])
         Visitante.objects.create(cc_visitante=jd['cc_visitante'], 
-                                 rostro="p'"+jd['rostro']+"'", 
+                                 foto=str(jd['cc_visitante'])+"org.jpg", 
+                                 rostro=str(jd['cc_visitante'])+"cort.jpg", 
                                  estado=jd['estado'],
-                                 habitacion=jd['habitacion'],
-                                 paciente=jd['paciente'])
+                                 habitacion=habitaciones,
+                                 paciente=pacientes)
         datos={'message':"Succes"}
         return JsonResponse(datos)
 
