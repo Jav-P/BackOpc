@@ -175,9 +175,6 @@ class VisitantesView(View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, id=0):
-        
-        Visitante.reg_rostro()
-
         if (id>0):
             visitantes=list(Visitante.objects.filter(id=id).values())
             if len(visitantes)>0:
@@ -196,13 +193,11 @@ class VisitantesView(View):
 
     def post(self, request):
         jd=json.loads(request.body)
-        habita=Habitacion.objects.get(id=jd['habitacion'])
-        pacientes=Paciente.objects.get(id=jd['paciente'])
         Visitante.objects.create(cc_visitante=jd['cc_visitante'], 
-                                 rostro=jd['rostro'], 
+                                 rostro="p'"+jd['rostro']+"'", 
                                  estado=jd['estado'],
-                                 habitacion=habita,
-                                 paciente=pacientes)
+                                 habitacion=jd['habitacion'],
+                                 paciente=jd['paciente'])
         datos={'message':"Succes"}
         return JsonResponse(datos)
 
@@ -232,3 +227,14 @@ class VisitantesView(View):
         else:
             datos = {'message':"Visitante no encontrado ..."}
         return JsonResponse(datos)    
+
+class loginView(View):
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, id=0):
+        
+
+        return
