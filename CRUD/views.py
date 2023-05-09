@@ -193,9 +193,8 @@ class VisitantesView(View):
 
     def post(self, request):
         jd=json.loads(request.body)
-        habitaciones=Habitacion.objects.get(id=jd['habitacion'])
-        pacientes=Paciente.objects.get(id=jd['paciente'])
-        # print(jd['foto'])
+        habitaciones=Habitacion.objects.get(id=jd['habitacion_id'])
+        pacientes=Paciente.objects.get(id=jd['paciente_id'])
         Visitante.reg_rostro(jd['foto'], jd['cc_visitante'])
         Visitante.objects.create(cc_visitante=jd['cc_visitante'], 
                                  foto=str(jd['cc_visitante'])+"org.jpg", 
@@ -209,15 +208,16 @@ class VisitantesView(View):
     def put(self, request, id):
         jd = json.loads(request.body)
         visitantes = list(Visitante.objects.filter(id=id).values())
-        habita=Habitacion.objects.get(id=jd['habitacion'])
-        pacientes=Paciente.objects.get(id=jd['paciente'])
+        habita=Habitacion.objects.get(id=jd['habitacion_id'])
+        pacientes=Paciente.objects.get(id=jd['paciente_id'])
         if(len(visitantes)>0):
             visitante = Visitante.objects.get(id=id)
             visitante.cc_visitante = jd['cc_visitante']
             visitante.rostro = jd['rostro']
+            visitante.foto = jd['foto']
             visitante.estado = jd['estado']
-            visitante.habitacion = habita
-            visitante.paciente = pacientes
+            visitante.habitacion_id = habita
+            visitante.paciente_id = pacientes
             visitante.save()
             datos = {'message':"Success"}
         else:
@@ -238,8 +238,20 @@ class loginView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request):        
+        jd=json.loads(request.body)
+        visitantes=list(Visitante.objects.filter(id=jd['id']).values())
+        if len(visitantes)>0:
+            datos=True
+        else:
+            datos=False
+        if datos:
+            Visitante.reg_rostro(jd['foto'], str(jd['cc_visitante'])+"Log")
+            resultado=Visitante.log_rostro(jd['cc_visitante'])
+            datos={'datos':resultado}
+        else:       
+            datos={'datos':"Visitante no registrado"}
+        return JsonResponse(datos)
 
-    def get(self, request, id=0):
         
-
-        return
